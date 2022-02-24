@@ -1,0 +1,10 @@
+#Feign配置修改
+feign:
+  httpclient:
+    enabled: true #开启Feign对httpclient的支持
+    max-connections: 20 #最大连接数
+    max-connections-per-route: 10 #每个路径最大连接数
+  client:
+    config:
+      default:  #default为全局设置，服务名为修改特定服务日志级别
+        loggerLevel: BASIC #日志级别

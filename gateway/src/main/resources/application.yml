@@ -1,0 +1,39 @@
+server:
+  port: 10010  #网关端口
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: localhost:8848  #nacos地址
+#      discovery:
+#        cluster-name: TEST
+    gateway:
+      routes: #网关路由配置
+        - id: user-service
+#          uri: http://127.0.0.1:8081 #路由的目标地址 http代表的是固定地址
+          uri: lb://userservice #目标路由地址，lb代表负载均衡后面跟服务名
+          predicates:   #判断请求是否符合路由规则的条件
+            - Path=/user/**  #按照路径匹配，符合/user/开头的就符合要求
+        - id: order-service
+          uri: lb://orderservice
+          predicates:
+            - Path=/order/**
+          filters: #过滤器
+            - AddRequestHeader=Treth, IT # 添加请求头过滤器
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求
+              - "http://localhost:8090"
+              - "*" #允许所有网站跨域
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期

@@ -2,8 +2,9 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false
+    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false&allowPublicKeyRetrieval=true
     username: root
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
   application:
     name: orderservice
@@ -12,8 +13,8 @@ spring:
     nacos:
       server-addr: localhost:8848
       discovery:
-        cluster-name: TEMP
-        namespace: 7eaac9ee-6633-46fd-b602-2063b0dc0dce
+#        cluster-name: TEST
+#        namespace: 7eaac9ee-6633-46fd-b602-2063b0dc0dce
 mybatis:
   type-aliases-package: cn.itcast.user.pojo
   configuration:
@@ -40,3 +41,14 @@ ribbon:
     clients:   # 开启饥饿加载的服务
       - userservice
     enabled: true # 开启饥饿加载
+
+##Feign配置修改
+#feign:
+#  httpclient:
+#    enabled: true #开启Feign对httpclient的支持
+#    max-connections: 20 #最大连接数
+#    max-connections-per-route: 10 #每个路径最大连接数
+#  client:
+#    config:
+#      default:  #default为全局设置，服务名为修改特定服务日志级别
+#        loggerLevel: BASIC #日志级别
